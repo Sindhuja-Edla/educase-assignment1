@@ -35,7 +35,7 @@ const LoginForm = () => {
 
   return (
     <div className="outer-container">
-      <div className="mobile-frame">
+      <div className="mobile-fram">
         <h2 className="form-title">Signin to your PopX account</h2>
         <p className="subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit,</p>
 
