@@ -5,6 +5,7 @@ import './LoginForm.css';
 const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -19,12 +20,14 @@ const LoginForm = () => {
       const data = await res.json();
 
       if (res.ok) {
-        // Store name and email in localStorage
         localStorage.setItem('userName', data.name);
         localStorage.setItem('userEmail', data.email);
 
-        alert(data.message || 'Logged in successfully!');
-        navigate('/profile'); // Redirect to profile page
+        setSuccessMessage(data.message || 'Logged in successfully!');
+
+        setTimeout(() => {
+          navigate('/profile');
+        }, 1500); // Delay redirect to show success message
       } else {
         alert(data.message || 'Login failed!');
       }
@@ -36,8 +39,12 @@ const LoginForm = () => {
   return (
     <div className="outer-container">
       <div className="mobile-fram">
-        <h2 className="form-title">Signin to your PopX account</h2>
-        <p className="subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit,</p>
+        <h2 className="form-title">Sign in to your PopX account</h2>
+        <p className="subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+
+        {successMessage && (
+          <p className="success-message">{successMessage}</p>
+        )}
 
         <form className="form" onSubmit={handleSubmit}>
           <label>Email Address</label>
