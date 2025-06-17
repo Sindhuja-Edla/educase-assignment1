@@ -12,6 +12,7 @@ const CreateAccountForm = () => {
     agency: '',
   });
 
+  const [successMessage, setSuccessMessage] = useState('');
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -31,12 +32,14 @@ const CreateAccountForm = () => {
       const data = await res.json();
 
       if (res.ok) {
-        // 🧠 Store user info in localStorage (like login)
         localStorage.setItem('userName', formData.fullName);
         localStorage.setItem('userEmail', formData.email);
 
-        alert(data.message || 'Account created successfully!');
-        navigate('/profile'); // ✅ Go to profile page directly
+        setSuccessMessage(data.message || 'Account created successfully!');
+
+        setTimeout(() => {
+          navigate('/profile');
+        }, 1500); // Delay to show the message before redirect
       } else {
         alert(data.message || 'Registration failed!');
       }
@@ -49,6 +52,11 @@ const CreateAccountForm = () => {
     <div className="outer-container">
       <div className="mobile-frame">
         <h2 className="form-title">Create your PopX account</h2>
+
+        {successMessage && (
+          <p className="success-message">{successMessage}</p>
+        )}
+
         <form className="form" onSubmit={handleSubmit}>
           <label>Full Name*</label>
           <input type="text" name="fullName" required onChange={handleChange} />
